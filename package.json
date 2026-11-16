@@ -1,0 +1,29 @@
+{
+  "name": "vida-de-qa-regressivo",
+  "private": true,
+  "description": "Regressivo do FlowDesk com Cypress + Cucumber · curso Vida de QA (módulo 4)",
+  "scripts": {
+    "cy:open": "cypress open",
+    "test": "cypress run",
+    "test:smoke": "cypress run --expose tags=@smoke",
+    "test:regressivo": "cypress run --expose tags=@regressivo"
+  },
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "28.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "2.2.8",
+    "cypress": "16.2.1",
+    "esbuild": "0.25.12"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": "cypress/support/step_definitions/**/*.js",
+    "filterSpecs": true,
+    "omitFiltered": true,
+    "html": {
+      "enabled": true,
+      "output": "relatorio/regressivo.html"
+    }
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
