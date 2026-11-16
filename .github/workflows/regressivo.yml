@@ -1,5 +1,5 @@
 name: Regressivo
-# EP32: o completo roda de madrugada, com calma. O cron do GitHub é em UTC: 9h UTC = 6h em Brasília
+# EP32: o completo roda de madrugada. Cron em UTC: 9h UTC = 6h em Brasília
 on:
   schedule:
     - cron: '0 9 * * *'
