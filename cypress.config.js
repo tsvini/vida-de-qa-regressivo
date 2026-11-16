@@ -22,7 +22,7 @@ module.exports = defineConfig({
     video: true, // grava todo spec, mas só guarda o vídeo de quem falhou (EP33)
     retries: 0, // retry esconde teste instável (EP27): aqui ele falha e a gente vê
     async setupNodeEvents(on, config) {
-      // o Cucumber também usa o after:spec: a gente avisa que vai cuidar dele (omitAfterSpecHandler) e chama o dele lá dentro
+      // o Cucumber também usa o after:spec: a gente desliga o dele e chama aqui dentro
       await addCucumberPreprocessorPlugin(on, config, { omitAfterSpecHandler: true });
       on('file:preprocessor', createBundler({ plugins: [createEsbuildPlugin(config)] }));
       // vídeo de teste verde é espaço jogado fora: apaga se nenhum teste do spec falhou
