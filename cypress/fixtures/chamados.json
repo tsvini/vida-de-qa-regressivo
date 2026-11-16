@@ -1,4 +1,12 @@
 {
-  "simples": { "titulo": "Impressora do caixa sem papel", "descricao": "Acabou a bobina da impressora fiscal.", "cliente": "Padaria Pão Quente" },
-  "lento": { "titulo": "Troco errado no caixa 2", "descricao": "O troco saiu com dez reais a menos.", "cliente": "Padaria Pão Quente" }
+  "simples": {
+    "titulo": "Impressora do caixa sem papel",
+    "descricao": "Acabou a bobina da impressora fiscal.",
+    "cliente": "Padaria Pão Quente"
+  },
+  "lento": {
+    "titulo": "Troco errado no caixa 2",
+    "descricao": "O troco saiu com dez reais a menos.",
+    "cliente": "Padaria Pão Quente"
+  }
 }
