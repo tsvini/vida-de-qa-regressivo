@@ -8,8 +8,11 @@ Cypress.Commands.add('noModulo4', () => {
 });
 
 // Abre uma tela do FlowDesk.
-// --expose regressao=duplicado traz um bug antigo de volta; --expose lento=1 deixa a rede como a de um CI.
+// --expose regressao=duplicado traz um bug antigo de volta.
+// --expose lento=1 deixa a rede como a de um CI.
 Cypress.Commands.add('abrir', (pagina, extra = '') => {
   const sep = pagina.includes('?') ? '&' : '?';
-  cy.visit(`${pagina}${sep}regressao=${Cypress.expose('regressao') || ''}&lento=${Cypress.expose('lento') || ''}${extra}`);
+  const regressao = Cypress.expose('regressao') || '';
+  const lento = Cypress.expose('lento') || '';
+  cy.visit(`${pagina}${sep}regressao=${regressao}&lento=${lento}${extra}`);
 });

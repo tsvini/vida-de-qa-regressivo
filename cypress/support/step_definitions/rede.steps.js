@@ -3,7 +3,11 @@ import { Given, When, Then } from '@badeball/cypress-cucumber-preprocessor';
 // Com ?api=rede o FlowDesk manda o novo chamado pela rede, em servidor/chamados.
 // O FlowDesk de treino não tem backend: quem responde é o teste, e ele escolhe a demora.
 Given('que o servidor demora {int} segundos pra responder', (s) => {
-  cy.intercept('POST', '**/servidor/chamados', { statusCode: 201, body: { id: 5001 }, delay: s * 1000 }).as('criar');
+  cy.intercept('POST', '**/servidor/chamados', {
+    statusCode: 201,
+    body: { id: 5001 },
+    delay: s * 1000,
+  }).as('criar');
 });
 
 When('eu clico duas vezes em Criar chamado com o chamado {string}', (nome) => {
@@ -24,6 +28,8 @@ Then('só sai um pedido pro servidor', () => {
 Then('existe só um chamado {string} na lista', (nome) => {
   cy.fixture('chamados').then((m) => {
     cy.abrir('chamados.html', '&api=');
-    cy.get('[data-test=linha-chamado]').filter(`:contains("${m[nome].titulo}")`).should('have.length', 1);
+    cy.get('[data-test=linha-chamado]')
+      .filter(`:contains("${m[nome].titulo}")`)
+      .should('have.length', 1);
   });
 });

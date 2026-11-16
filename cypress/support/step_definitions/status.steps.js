@@ -4,7 +4,9 @@ import { When, Then } from '@badeball/cypress-cucumber-preprocessor';
 When('eu abro o chamado {string}', (nome) => {
   cy.fixture('chamados').then((m) => {
     cy.abrir('chamados.html');
-    cy.contains('[data-test=linha-chamado]', m[nome].titulo).find('[data-test=link-chamado]').click();
+    cy.contains('[data-test=linha-chamado]', m[nome].titulo)
+      .find('[data-test=link-chamado]')
+      .click();
     cy.get('[data-test=chamado-titulo]').should('contain', m[nome].titulo);
   });
 });
