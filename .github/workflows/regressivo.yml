@@ -1,5 +1,5 @@
 name: Regressivo
-# EP31: roda em cada pedido de revisão (antes do código entrar) e no botão "Run workflow"
+# EP31: roda a cada pedido de revisão e pelo botão
 on:
   pull_request:
   workflow_dispatch:
