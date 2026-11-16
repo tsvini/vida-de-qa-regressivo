@@ -4,6 +4,10 @@ on:
   schedule:
     - cron: '0 9 * * *'
   workflow_dispatch:
+    inputs:
+      regressao:
+        description: 'Liga um bug antigo de propósito (ex: duplicado). Vazio roda normal'
+        default: ''
 # EP34: o GitHub vive em UTC, o usuário vive em Brasília. Testa como ele vê
 env:
   TZ: America/Sao_Paulo
@@ -20,7 +24,7 @@ jobs:
         with: { node-version: 22 }
       - uses: cypress-io/github-action@v6
         with:
-          browser: chrome
+          command: npx cypress run --browser chrome ${{ inputs.regressao && format('--expose regressao={0}', inputs.regressao) || '' }}
       # EP33: só quando falha, com tudo que o time precisa pra entender sem perguntar
       - uses: actions/upload-artifact@v4
         if: failure()
