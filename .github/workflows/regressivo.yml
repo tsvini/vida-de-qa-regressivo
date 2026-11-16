@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 9 * * *'
   workflow_dispatch:
-# EP34: a máquina do GitHub vive em UTC. O usuário do FlowDesk vive em Brasília: o pipeline testa como ele vê
+# EP34: o GitHub vive em UTC, o usuário vive em Brasília. Testa como ele vê
 env:
   TZ: America/Sao_Paulo
 # EP36: o pipeline pode abrir e comentar cards (issues) no repositório
