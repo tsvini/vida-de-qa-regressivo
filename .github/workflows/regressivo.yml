@@ -24,7 +24,9 @@ jobs:
         with: { node-version: 22 }
       - uses: cypress-io/github-action@v6
         with:
-          command: npx cypress run --browser chrome ${{ inputs.regressao && format('--expose regressao={0}', inputs.regressao) || '' }}
+          command: >-
+            npx cypress run --browser chrome
+            ${{ inputs.regressao && format('--expose regressao={0}', inputs.regressao) || '' }}
       # EP33: só quando falha, com tudo que o time precisa pra entender sem perguntar
       - uses: actions/upload-artifact@v4
         if: failure()
@@ -40,13 +42,20 @@ jobs:
         if: failure()
         with:
           script: |
-            const link = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            const { data: abertos } = await github.rest.issues.listForRepo({ ...context.repo, state: 'open', labels: 'regressivo' });
+            const { owner, repo } = context.repo;
+            const link = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const hoje = new Date().toLocaleDateString('pt-BR');
+            const { data: abertos } = await github.rest.issues.listForRepo({
+              owner, repo, state: 'open', labels: 'regressivo' });
             if (abertos.length) {
-              await github.rest.issues.createComment({ ...context.repo, issue_number: abertos[0].number,
-                body: `Falhou de novo em ${new Date().toLocaleString('pt-BR')}.\nExecução: ${link}` });
+              await github.rest.issues.createComment({ owner, repo,
+                issue_number: abertos[0].number,
+                body: `Falhou de novo em ${hoje}.\nExecução: ${link}` });
             } else {
-              await github.rest.issues.create({ ...context.repo, labels: ['regressivo'],
-                title: `Regressivo vermelho em ${new Date().toLocaleDateString('pt-BR')}`,
-                body: `O regressivo da noite falhou.\n\nExecução e evidências (print, vídeo e relatório): ${link}\n\nQuem pegar, coloca seu nome aqui. Prazo: meio-dia.` });
+              await github.rest.issues.create({ owner, repo,
+                labels: ['regressivo'],
+                title: `Regressivo vermelho em ${hoje}`,
+                body: ['O regressivo da noite falhou.',
+                  `Execução e evidências: ${link}`,
+                  'Quem pegar, coloca o nome aqui. Prazo: meio-dia.'].join('\n\n') });
             }
