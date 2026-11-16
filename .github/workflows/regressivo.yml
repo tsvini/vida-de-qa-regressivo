@@ -1,6 +1,7 @@
 name: Regressivo
+# EP31: roda em cada pedido de revisão (antes do código entrar) e no botão "Run workflow"
 on:
-  push:
+  pull_request:
   workflow_dispatch:
 jobs:
   cypress:
