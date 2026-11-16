@@ -13,11 +13,13 @@ jobs:
       - uses: cypress-io/github-action@v6
         with:
           command: npx cypress run --browser chrome --expose tags=@smoke
+      # EP33: só quando falha, com tudo que o time precisa pra entender sem perguntar
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: failure()
         with:
-          name: relatorio-smoke
+          name: evidencia-smoke
           path: |
             relatorio/
             cypress/screenshots/
+            cypress/videos/
           if-no-files-found: ignore

@@ -14,11 +14,13 @@ jobs:
       - uses: cypress-io/github-action@v6
         with:
           browser: chrome
+      # EP33: só quando falha, com tudo que o time precisa pra entender sem perguntar
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: failure()
         with:
-          name: relatorio
+          name: evidencia-regressivo
           path: |
             relatorio/
             cypress/screenshots/
+            cypress/videos/
           if-no-files-found: ignore
