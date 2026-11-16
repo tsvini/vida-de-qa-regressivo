@@ -37,7 +37,7 @@ jobs:
             cypress/screenshots/
             cypress/videos/
           if-no-files-found: ignore
-      # EP36: vermelho da noite vira card com dono. Se já tem um aberto, comenta nele em vez de abrir outro
+      # EP36: vermelho da noite vira card. Já tem um aberto? Comenta nele
       - uses: actions/github-script@v7
         if: failure()
         with:
