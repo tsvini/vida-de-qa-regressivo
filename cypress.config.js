@@ -1,6 +1,7 @@
+const fs = require('fs');
 const { defineConfig } = require('cypress');
 const createBundler = require('@bahmutov/cypress-esbuild-preprocessor');
-const { addCucumberPreprocessorPlugin } = require('@badeball/cypress-cucumber-preprocessor');
+const { addCucumberPreprocessorPlugin, afterSpecHandler } = require('@badeball/cypress-cucumber-preprocessor');
 const { createEsbuildPlugin } = require('@badeball/cypress-cucumber-preprocessor/esbuild');
 
 module.exports = defineConfig({
@@ -18,11 +19,18 @@ module.exports = defineConfig({
     baseUrl: 'https://tsvini.github.io/custo-oculto-fabrica/flowdesk/',
     specPattern: 'cypress/e2e/**/*.feature',
     screenshotOnRunFailure: true,
-    video: false,
+    video: true, // grava todo spec, mas só guarda o vídeo de quem falhou (EP33)
     retries: 0, // retry esconde teste instável (EP27): aqui ele falha e a gente vê
     async setupNodeEvents(on, config) {
-      await addCucumberPreprocessorPlugin(on, config);
+      // o Cucumber também usa o after:spec: a gente avisa que vai cuidar dele (omitAfterSpecHandler) e chama o dele lá dentro
+      await addCucumberPreprocessorPlugin(on, config, { omitAfterSpecHandler: true });
       on('file:preprocessor', createBundler({ plugins: [createEsbuildPlugin(config)] }));
+      // vídeo de teste verde é espaço jogado fora: apaga se nenhum teste do spec falhou
+      on('after:spec', async (spec, results) => {
+        await afterSpecHandler(config, spec, results);
+        const falhou = results && results.tests.some((t) => t.attempts.some((a) => a.state === 'failed'));
+        if (results && results.video && !falhou && fs.existsSync(results.video)) fs.unlinkSync(results.video);
+      });
       return config;
     },
   },
