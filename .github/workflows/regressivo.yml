@@ -1,7 +1,8 @@
 name: Regressivo
-# EP31: roda em cada pedido de revisão (antes do código entrar) e no botão "Run workflow"
+# EP32: o completo roda de madrugada, com calma. O cron do GitHub é em UTC: 9h UTC = 6h em Brasília
 on:
-  pull_request:
+  schedule:
+    - cron: '0 9 * * *'
   workflow_dispatch:
 jobs:
   cypress:
