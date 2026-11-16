@@ -1,4 +1,5 @@
 # language: pt
+@testIsolation(false)
 Funcionalidade: Status do chamado
 
   Cenário: Criar chamado
