@@ -29,6 +29,13 @@ npx cypress run --expose regressao=layout      # botão "Novo chamado" some no c
 
 Com o bug ligado, o teste dele tem que ficar vermelho. Sem o bug, verde.
 
+## Valendo a missão no FlowDesk
+
+Cada prática do módulo tem uma missão. Rode o comando da aula, copie a saída do terminal (pode ser inteira) e cole na página **Regressivo** do FlowDesk:
+https://tsvini.github.io/custo-oculto-fabrica/flowdesk/regressivo.html
+
+O FlowDesk confere o spec e, na prova com o bug, se ele falhou pelo motivo certo.
+
 ## Ganchos do FlowDesk pra teste
 
 | Na URL | O que faz |
