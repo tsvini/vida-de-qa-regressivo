@@ -4,6 +4,9 @@ on:
   schedule:
     - cron: '0 9 * * *'
   workflow_dispatch:
+# EP34: a máquina do GitHub vive em UTC. O usuário do FlowDesk vive em Brasília: o pipeline testa como ele vê
+env:
+  TZ: America/Sao_Paulo
 jobs:
   cypress:
     runs-on: ubuntu-latest
