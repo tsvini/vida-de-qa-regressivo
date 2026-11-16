@@ -1,5 +1,5 @@
 # language: pt
-@regressivo @rede
+@smoke @regressivo @rede
 Funcionalidade: Chamado em dobro com rede lenta (BUG-04)
   Voltou uma vez em produção. Não volta de novo sem esse teste ficar vermelho.
 

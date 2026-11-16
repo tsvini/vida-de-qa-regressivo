@@ -1,5 +1,5 @@
 # language: pt
-@regressivo @privacidade
+@smoke @regressivo @privacidade
 Funcionalidade: Rascunho de uma conta não aparece pra outra (BUG-07)
   O rascunho da Beatriz tinha o contrato de um cliente. Isso não pode vazar de novo.
 

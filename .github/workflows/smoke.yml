@@ -1,0 +1,23 @@
+name: Smoke
+# EP32: no pedido de revisão roda só o que é rápido e crítico (tag @smoke)
+on:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress run --browser chrome --expose tags=@smoke
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: relatorio-smoke
+          path: |
+            relatorio/
+            cypress/screenshots/
+          if-no-files-found: ignore
