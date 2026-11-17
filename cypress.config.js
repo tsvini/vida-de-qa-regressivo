@@ -25,6 +25,8 @@ module.exports = defineConfig({
     retries: 0, // retry esconde teste instável (EP27): aqui ele falha e a gente vê
     async setupNodeEvents(on, config) {
       // o Cucumber também usa o after:spec: a gente desliga o dele e chama aqui dentro
+      // EP56: deixa o robô da acessibilidade escrever no terminal
+      on('task', { log: (msg) => { console.log(msg); return null; } });
       await addCucumberPreprocessorPlugin(on, config, { omitAfterSpecHandler: true });
       on('file:preprocessor', createBundler({ plugins: [createEsbuildPlugin(config)] }));
       // vídeo de teste verde é espaço jogado fora: apaga se nenhum teste do spec falhou
