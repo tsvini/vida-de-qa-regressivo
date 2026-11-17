@@ -16,3 +16,11 @@ Cypress.Commands.add('abrir', (pagina, extra = '') => {
   const lento = Cypress.expose('lento') || '';
   cy.visit(`${pagina}${sep}regressao=${regressao}&lento=${lento}${extra}`);
 });
+
+// Entra pelo servidor (sem tela) e guarda o token em @token.
+// Contas de teste: voce e lucas, as duas com a senha teste123.
+Cypress.Commands.add('entrarPeloServidor', (quem) => {
+  cy.request('POST', `${Cypress.expose('api')}/entrar`, { email: `${quem}@flowdesk.test`, senha: 'teste123' })
+    .its('body.token')
+    .as('token');
+});
