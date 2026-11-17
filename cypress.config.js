@@ -7,6 +7,8 @@ const { createEsbuildPlugin } = require('@badeball/cypress-cucumber-preprocessor
 module.exports = defineConfig({
   // valores públicos que os testes leem com Cypress.expose()
   expose: {
+    // o servidor do FlowDesk (npm run api), usado nos testes de API do módulo 6
+    api: 'http://localhost:3000/api',
     // liga um bug antigo do FlowDesk: npx cypress run --expose regressao=duplicado
     regressao: '',
     // simula rede lenta e variável na busca (EP27): npx cypress run --expose lento=1

@@ -24,6 +24,9 @@ jobs:
         with: { node-version: 22 }
       - uses: cypress-io/github-action@v6
         with:
+          # EP39: o servidor do FlowDesk sobe antes dos testes
+          start: npm run api
+          wait-on: 'http://localhost:3000/api/saude'
           command: >-
             npx cypress run --browser chrome
             ${{ inputs.regressao && format('--expose regressao={0}', inputs.regressao) || '' }}
