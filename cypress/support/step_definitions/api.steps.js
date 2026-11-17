@@ -8,8 +8,9 @@ When('eu peço a lista de chamados', () => {
   cy.request(api('/chamados')).as('resposta');
 });
 
+// fêil on stêitus côud: false deixa a resposta de erro chegar, quem confere é o teste
 When('eu peço o chamado {int}', (id) => {
-  cy.request(api(`/chamados/${id}`)).as('resposta');
+  cy.request({ url: api(`/chamados/${id}`), failOnStatusCode: false }).as('resposta');
 });
 
 Then('o servidor responde {int}', (status) => {
@@ -42,4 +43,12 @@ When('eu busco esse chamado de volta', () => {
 
 Then('a prioridade guardada é {string}', (prioridade) => {
   cy.get('@resposta').then((r) => expect(r.body.prioridade, 'campo prioridade').to.eq(prioridade));
+});
+
+When('eu crio pelo servidor um chamado com título {string}, cliente {string} e prioridade {string}', (titulo, cliente, prioridade) => {
+  cy.request({ method: 'POST', url: api('/chamados'), body: { titulo, cliente, prioridade }, failOnStatusCode: false }).as('resposta');
+});
+
+Then('a mensagem de erro diz {string}', (trecho) => {
+  cy.get('@resposta').then((r) => expect(r.body.erro, 'mensagem de erro').to.contain(trecho));
 });

@@ -27,3 +27,20 @@ Funcionalidade: Servidor de chamados
     Então o servidor responde 201
     Quando eu busco esse chamado de volta
     Então a prioridade guardada é "alta"
+
+  Cenário: Chamado que não existe
+    Quando eu peço o chamado 9000
+    Então o servidor responde 404
+    E a mensagem de erro diz "não encontrado"
+
+  # uma regra diferente do servidor em cada linha
+  Esquema do Cenário: O servidor recusa chamado errado: <caso>
+    Quando eu crio pelo servidor um chamado com título "<título>", cliente "<cliente>" e prioridade "<prioridade>"
+    Então o servidor responde 400
+    E a mensagem de erro diz "<mensagem>"
+
+    Exemplos:
+      | caso                   | título      | cliente          | prioridade | mensagem                  |
+      | título vazio           |             | Panificadora Sol | alta       | título é obrigatório      |
+      | cliente que não existe | Forno parou | Padaria Fantasma | alta       | Cliente não encontrado    |
+      | prioridade inválida    | Forno parou | Panificadora Sol | gigante    | use baixa, média ou alta  |
