@@ -2,10 +2,6 @@ import { When, Then } from '@badeball/cypress-cucumber-preprocessor';
 
 const api = (caminho) => `${Cypress.expose('api')}${caminho}`;
 
-When('eu entro pelo servidor como {string}', (quem) => {
-  cy.request('POST', api('/entrar'), { email: `${quem}@flowdesk.test`, senha: 'teste123' }).as('entrada');
-});
-
 // não espera nada: confere a hora em que o token vence
 Then('o token vale pelo menos {int} {word}', (quanto, unidade) => {
   const minimo = quanto * { minutos: 60, dias: 24 * 60 * 60 }[unidade];
