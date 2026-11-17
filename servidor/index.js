@@ -116,6 +116,24 @@ const servidor = http.createServer(async (req, res) => {
     return c ? responde(res, 200, saida(c)) : responde(res, 404, { erro: 'Chamado não encontrado' });
   }
 
+  // fotos do chamado (FD-130): { nome, tipo, tamanho } com o tamanho em bytes
+  const fotosDe = /^\/api\/chamados\/(\d+)\/fotos$/.exec(rota);
+  if (fotosDe) {
+    const c = chamados.find((x) => x.id === Number(fotosDe[1]));
+    if (!c) return responde(res, 404, { erro: 'Chamado não encontrado' });
+    c.fotos = c.fotos || [];
+    if (m === 'GET') return responde(res, 200, c.fotos);
+    if (m === 'POST') {
+      const f = await leCorpo(req);
+      if (!f || !String(f.nome || '').trim()) return responde(res, 400, { erro: 'Manda o nome da foto' });
+      if (!['image/jpeg', 'image/png'].includes(f.tipo)) return responde(res, 400, { erro: 'Só fotos: JPG ou PNG' });
+      if (c.fotos.length >= 3) return responde(res, 400, { erro: 'No máximo 3 fotos por chamado' });
+      const foto = { nome: String(f.nome).trim(), tipo: f.tipo, tamanho: Number(f.tamanho) || 0 };
+      c.fotos.push(foto);
+      return responde(res, 201, foto);
+    }
+  }
+
   if (rota === '/api/entrar' && m === 'POST') {
     const c = await leCorpo(req) || {};
     const u = USUARIOS.find((x) => x.email === c.email && x.senha === c.senha);
