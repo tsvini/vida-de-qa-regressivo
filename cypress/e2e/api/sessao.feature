@@ -6,3 +6,8 @@ Funcionalidade: Sessão (o incidente de sexta)
   Cenário: O token vale pelo menos 30 minutos
     Dado que eu entrei pelo servidor como "voce"
     Então o token vale pelo menos 30 minutos
+
+  # o vizinho: o deploy de sexta mexeu também no "lembrar de mim"
+  Cenário: Com "lembrar de mim", a sessão dura 30 dias
+    Quando eu entro pelo servidor como "voce" marcando lembrar de mim
+    Então o token vale pelo menos 30 dias
