@@ -1,3 +1,4 @@
+import '@testing-library/cypress/add-commands';
 // Comandos que todo cenário usa.
 
 // Entra no FlowDesk já no estado do módulo 4 (Sprint 18), com a conta de teste.
