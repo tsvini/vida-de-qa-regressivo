@@ -15,6 +15,9 @@ jobs:
         with: { node-version: 22 }
       - uses: cypress-io/github-action@v6
         with:
+          # EP40: o smoke agora tem teste de API, então o servidor sobe junto
+          start: npm run api
+          wait-on: 'http://localhost:3000/api/saude'
           command: npx cypress run --browser chrome --expose tags=@smoke
       # EP33: só quando falha, com tudo que o time precisa pra entender sem perguntar
       - uses: actions/upload-artifact@v4
