@@ -23,6 +23,7 @@ Cypress.Commands.add('abrir', (pagina, extra = '') => {
 // Contas de teste: voce e lucas, as duas com a senha teste123.
 Cypress.Commands.add('entrarPeloServidor', (quem) => {
   cy.request('POST', `${Cypress.expose('api')}/entrar`, { email: `${quem}@flowdesk.test`, senha: 'teste123' })
+    .as('entrada') // a resposta inteira (com a hora em que o token vence) fica em @entrada
     .its('body.token')
     .as('token');
 });
