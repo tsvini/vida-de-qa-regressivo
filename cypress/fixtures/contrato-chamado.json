@@ -1,0 +1,8 @@
+{
+  "id": "number",
+  "titulo": "string",
+  "cliente": "string",
+  "prioridade": ["baixa", "média", "alta"],
+  "status": "string",
+  "criadoEm": "string"
+}
