@@ -13,12 +13,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
+      # EP44: primeiro o servidor. Se ele estiver quebrado, para aqui, sem esperar a tela
       - uses: cypress-io/github-action@v6
         with:
-          # EP40: o smoke agora tem teste de API, então o servidor sobe junto
           start: npm run api
           wait-on: 'http://localhost:3000/api/saude'
-          command: npx cypress run --browser chrome --expose tags=@smoke
+          command: npx cypress run --browser chrome --expose "tags=@smoke and @api"
+      - uses: cypress-io/github-action@v6
+        with:
+          install: false
+          command: npx cypress run --browser chrome --expose "tags=@smoke and not @api"
       # EP33: só quando falha, com tudo que o time precisa pra entender sem perguntar
       - uses: actions/upload-artifact@v4
         if: failure()
