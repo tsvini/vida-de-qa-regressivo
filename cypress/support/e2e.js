@@ -14,7 +14,9 @@ Cypress.Commands.add('abrir', (pagina, extra = '') => {
   const sep = pagina.includes('?') ? '&' : '?';
   const regressao = Cypress.expose('regressao') || '';
   const lento = Cypress.expose('lento') || '';
-  cy.visit(`${pagina}${sep}regressao=${regressao}&lento=${lento}${extra}`);
+  // EP43: quando o cenário preparou os dados pelo servidor, a tela lê do servidor também
+  const servidor = globalThis.dadosNoServidor ? `&servidor=${Cypress.expose('api').replace(/\/api$/, '')}` : '';
+  cy.visit(`${pagina}${sep}regressao=${regressao}&lento=${lento}${servidor}${extra}`);
 });
 
 // Entra pelo servidor (sem tela) e guarda o token em @token.
@@ -23,4 +25,9 @@ Cypress.Commands.add('entrarPeloServidor', (quem) => {
   cy.request('POST', `${Cypress.expose('api')}/entrar`, { email: `${quem}@flowdesk.test`, senha: 'teste123' })
     .its('body.token')
     .as('token');
+});
+
+// cada cenário começa lendo os dados do próprio FlowDesk
+beforeEach(() => {
+  globalThis.dadosNoServidor = false;
 });
