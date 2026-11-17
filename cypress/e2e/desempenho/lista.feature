@@ -5,5 +5,6 @@ Funcionalidade: A lista grande do Mercado Bom Preço
 
   Cenário: Com 2000 chamados, a lista aparece em menos de 2 segundos
     Dado que estou no FlowDesk depois do e-mail da Paula
-    Quando eu abro a lista com 2000 chamados
+    E o Mercado Bom Preço tem 2000 chamados
+    Quando eu abro a lista e espero o primeiro chamado
     Então a lista aparece em menos de 2000 milissegundos
