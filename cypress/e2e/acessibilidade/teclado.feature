@@ -6,9 +6,12 @@ Funcionalidade: Novo chamado só no teclado
   Cenário: O Tab segue a ordem do formulário
     Dado que estou no FlowDesk depois do e-mail da Paula
     E eu abro o novo chamado
+    E eu escrevo o título e a descrição
     Quando eu clico no título e aperto Tab
     Então o foco está na descrição
     Quando eu aperto Tab
     Então o foco está no cliente
     Quando eu aperto Tab
     Então o foco está no botão de enviar
+    Quando eu aperto Enter
+    Então aparece a mensagem de chamado criado

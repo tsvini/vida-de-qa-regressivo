@@ -8,6 +8,11 @@ Given('eu abro o novo chamado', () => {
   cy.abrir('novo-chamado.html');
 });
 
+Given('eu escrevo o título e a descrição', () => {
+  cy.get('[data-test=titulo]').type('Impressora não liga');
+  cy.get('[data-test=descricao]').type('Desde cedo, nenhuma impressão sai.');
+});
+
 // cy.press aperta a tecla de verdade, como a pessoa faria
 When('eu clico no título e aperto Tab', () => {
   cy.get('[data-test=titulo]').focus();
@@ -16,6 +21,11 @@ When('eu clico no título e aperto Tab', () => {
 
 When('eu aperto Tab', () => {
   cy.press(Cypress.Keyboard.Keys.TAB);
+});
+
+// o Enter vai pra quem está com o foco: aqui, o botão de enviar
+When('eu aperto Enter', () => {
+  cy.focused().type('{enter}');
 });
 
 const campos = { 'na descrição': 'descricao', 'no cliente': 'cliente', 'no botão de enviar': 'criar-chamado' };
