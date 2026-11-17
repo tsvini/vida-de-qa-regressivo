@@ -32,3 +32,9 @@ Cypress.Commands.add('entrarPeloServidor', (quem) => {
 beforeEach(() => {
   globalThis.dadosNoServidor = false;
 });
+
+// Módulo 8: o FlowDesk depois do e-mail da Paula (tela nova do novo chamado, contraste novo).
+Cypress.Commands.add('noModulo8', () => {
+  cy.visit('index.html?save=m8ep54');
+  cy.location('pathname').should('include', 'dashboard');
+});
