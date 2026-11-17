@@ -39,3 +39,19 @@ Cypress.Commands.add('noModulo8', () => {
   cy.visit('index.html?save=m8ep54');
   cy.location('pathname').should('include', 'dashboard');
 });
+
+// EP56: o robô da acessibilidade (axe-core). Dois comandos: um carrega o robô na página, o outro manda ele conferir.
+// (o plugin cypress-axe ainda não aceita o Cypress 16, então os dois comandos ficam aqui, com o axe-core direto)
+import axe from 'axe-core';
+Cypress.Commands.add('injectAxe', () => {
+  cy.window({ log: false }).then((win) => { if (!win.axe) win.eval(axe.source); });
+});
+Cypress.Commands.add('checkA11y', (gravidades = ['critical', 'serious']) => {
+  cy.window({ log: false })
+    .then((win) => win.axe.run(win.document, { resultTypes: ['violations'] }))
+    .then(({ violations }) => {
+      const graves = violations.filter((v) => gravidades.includes(v.impact));
+      graves.forEach((v) => cy.task('log', `  ${v.impact} · ${v.id} · ${v.help} · ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`, { log: false }));
+      cy.wrap(graves, { log: false }).then((g) => expect(g.map((v) => `${v.id} (${v.nodes.length})`), 'problemas graves de acessibilidade').to.be.empty);
+    });
+});
