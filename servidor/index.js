@@ -8,6 +8,8 @@
 //   rascunho          entrega o rascunho de uma pessoa pra outra
 //   nome-do-campo     o campo "cliente" passa a se chamar "nomeCliente"
 //   lento             a lista de chamados demora quase 4 segundos
+//   sessao            o token vence em 30 segundos em vez de 30 minutos (a sexta-feira do módulo 7)
+//   lembrar           marcar "lembrar de mim" não muda nada: a sessão dura 30 minutos igual
 const http = require('http');
 const crypto = require('crypto');
 
@@ -55,9 +57,18 @@ function prioridade(p) {
   return null;
 }
 
+// sessão: 30 minutos, ou 30 dias com "lembrar de mim"
+const MINUTO = 60 * 1000;
+function duracaoSessao(lembrar) {
+  if (bug('sessao')) return 30 * 1000; // trinta, que devia ser minutos, lido como segundos
+  if (lembrar && !bug('lembrar')) return 30 * 24 * 60 * MINUTO;
+  return 30 * MINUTO;
+}
 const quemE = (req) => {
   const m = /^Bearer (.+)$/.exec(req.headers.authorization || '');
-  return m ? USUARIOS.find((u) => u.id === tokens.get(m[1])) : null;
+  const t = m && tokens.get(m[1]);
+  if (!t || Date.now() > t.vence) return null;
+  return USUARIOS.find((u) => u.id === t.id);
 };
 
 function responde(res, status, corpo, atraso = 0) {
@@ -110,8 +121,15 @@ const servidor = http.createServer(async (req, res) => {
     const u = USUARIOS.find((x) => x.email === c.email && x.senha === c.senha);
     if (!u) return responde(res, 401, { erro: 'E-mail ou senha errados' });
     const token = crypto.randomBytes(16).toString('hex');
-    tokens.set(token, u.id);
-    return responde(res, 200, { token, nome: u.nome });
+    const vence = Date.now() + duracaoSessao(!!c.lembrar);
+    tokens.set(token, { id: u.id, vence });
+    return responde(res, 200, { token, nome: u.nome, expiraEm: new Date(vence).toISOString() });
+  }
+
+  if (rota === '/api/sair' && m === 'POST') {
+    const t = /^Bearer (.+)$/.exec(req.headers.authorization || '');
+    if (t) tokens.delete(t[1]);
+    return responde(res, 200, { ok: true });
   }
 
   if (rota.startsWith('/api/rascunhos')) {
