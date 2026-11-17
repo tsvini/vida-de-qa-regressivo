@@ -60,3 +60,16 @@ Cada episódio tem uma branch com o código pronto do fim dele. Travou? Compara 
 | EP28 · O teste passou. E agora? | `ep28-gabarito` | a revisão do PR do Rafael |
 
 Os exercícios do EP27 e do EP28 ficam em `exercicios/` (fora da pasta de testes, pra não rodarem sozinhos).
+
+## O servidor do FlowDesk (módulo 6)
+
+A pasta `servidor/` tem o servidor do FlowDesk que os testes de API usam. Não precisa instalar nada a mais.
+
+```bash
+npm run api                              # liga em http://localhost:3000/api/chamados
+npm run api -- --regressao=cliente       # liga com um bug antigo
+```
+
+Bugs que dá pra ligar: `cliente`, `prioridade`, `cliente-fantasma`, `rascunho`, `nome-do-campo` e `lento`. A lista com o que cada um faz está no começo de `servidor/index.js`.
+
+Contas de teste: `voce@flowdesk.test` e `lucas@flowdesk.test`, as duas com a senha `teste123`.

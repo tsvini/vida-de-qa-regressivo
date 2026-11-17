@@ -3,6 +3,7 @@
   "private": true,
   "description": "Regressivo do FlowDesk com Cypress + Cucumber · curso Vida de QA (módulo 4)",
   "scripts": {
+    "api": "node servidor/index.js",
     "cy:open": "cypress open",
     "test": "cypress run",
     "test:smoke": "cypress run --expose tags=@smoke",
