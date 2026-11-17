@@ -73,3 +73,5 @@ npm run api -- --regressao=cliente       # liga com um bug antigo
 Bugs que dá pra ligar: `cliente`, `prioridade`, `cliente-fantasma`, `rascunho`, `nome-do-campo`, `lento`, `sessao` e `lembrar`. A lista com o que cada um faz está no começo de `servidor/index.js`.
 
 Contas de teste: `voce@flowdesk.test` e `lucas@flowdesk.test`, as duas com a senha `teste123`.
+
+Desafio 2 (FD-130): as fotos de um chamado ficam em `POST /api/chamados/:id/fotos`, com `{ "nome": "forno.jpg", "tipo": "image/jpeg", "tamanho": 2400000 }` (tamanho em bytes). `GET` na mesma rota lista as fotos.
