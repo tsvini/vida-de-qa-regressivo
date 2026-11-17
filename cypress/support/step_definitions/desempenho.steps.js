@@ -18,3 +18,26 @@ When('eu abro a lista e espero o primeiro chamado', () => {
 Then('a lista aparece em menos de {int} milissegundos', (limite) => {
   cy.get('@tempo').then((ms) => expect(ms, `a lista apareceu em ${ms} ms`).to.be.lessThan(limite));
 });
+
+// EP59: o limite vem do arquivo de orçamento, não do cenário. Melhorou a tela? Muda um número num lugar só.
+const telas = {
+  painel: ['dashboard.html', '[data-test=missao-atual]'],
+  'lista de chamados': ['chamados.html', '[data-test=linha-chamado]', '&massa=2000'],
+  'novo chamado': ['novo-chamado.html', '[data-test=titulo]'],
+};
+When('eu abro a tela {string} medindo o tempo', (tela) => {
+  const [pagina, pronto, extra = ''] = telas[tela];
+  cy.wrap(tela, { log: false }).as('tela');
+  cy.wrap(Date.now(), { log: false }).as('inicio');
+  cy.abrir(pagina, extra);
+  cy.get(pronto, { timeout: 20000 }).should('be.visible');
+  cy.get('@inicio').then((t0) => cy.wrap(Date.now() - t0, { log: false }).as('tempo'));
+});
+
+Then('ela aparece dentro do orçamento', () => {
+  cy.fixture('orcamento').then((limites) => {
+    cy.get('@tela').then((tela) => {
+      cy.get('@tempo').then((ms) => expect(ms, `${tela}: ${ms} ms (limite ${limites[tela]} ms)`).to.be.lessThan(limites[tela]));
+    });
+  });
+});
