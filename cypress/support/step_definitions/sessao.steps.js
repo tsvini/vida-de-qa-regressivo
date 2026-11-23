@@ -7,6 +7,8 @@ Then('o token vale pelo menos {int} {word}', (quanto, unidade) => {
   const minimo = quanto * { minutos: 60, dias: 24 * 60 * 60 }[unidade];
   cy.get('@entrada').then((r) => {
     const segundos = Math.round((Date.parse(r.body.expiraEm) - Date.now()) / 1000);
-    expect(segundos, `o token vence em ${segundos} segundos`).to.be.at.least(minimo);
+    // escreve o tempo do jeito que a gente fala: 30 segundos, 30 minutos, 30 dias
+    const falado = segundos >= 86400 ? `${Math.round(segundos / 86400)} dias` : segundos >= 60 ? `${Math.round(segundos / 60)} minutos` : `${segundos} segundos`;
+    expect(segundos, `o token vence em ${falado}, esperado pelo menos ${quanto} ${unidade}`).to.be.at.least(minimo);
   });
 });
