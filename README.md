@@ -14,7 +14,7 @@ npm run test:smoke          # só os cenários @smoke
 npm run test:regressivo     # só os cenários @regressivo
 ```
 
-Os testes rodam contra o FlowDesk publicado: `https://tsvini.github.io/custo-oculto-fabrica/flowdesk/`
+Os testes rodam contra o FlowDesk publicado: `https://tsvini.github.io/flowdesk/`
 
 ## Ligando um bug antigo de volta
 
@@ -32,7 +32,7 @@ Com o bug ligado, o teste dele tem que ficar vermelho. Sem o bug, verde.
 ## Valendo a missão no FlowDesk
 
 Cada prática do módulo tem uma missão. Rode o comando da aula, copie a saída do terminal (pode ser inteira) e cole na página **Regressivo** do FlowDesk:
-https://tsvini.github.io/custo-oculto-fabrica/flowdesk/regressivo.html
+https://tsvini.github.io/flowdesk/regressivo.html
 
 O FlowDesk confere o spec e, na prova com o bug, se ele falhou pelo motivo certo.
 
