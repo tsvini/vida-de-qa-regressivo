@@ -15,7 +15,7 @@ module.exports = defineConfig({
   },
   e2e: {
     // o FlowDesk do curso, publicado no GitHub Pages
-    baseUrl: 'https://tsvini.github.io/custo-oculto-fabrica/flowdesk/',
+    baseUrl: 'https://tsvini.github.io/flowdesk/',
     specPattern: 'cypress/e2e/**/*.feature',
     screenshotOnRunFailure: true,
     video: false,
